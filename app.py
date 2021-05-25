@@ -5,8 +5,10 @@ import dash_table as dt
 import dash_html_components as html
 import dash_core_components as dcc
 import pandas as pd
+import model_fun
 
 data = pd.read_csv('assets/heart.csv')
+print(model_fun.pred_naive_bayes(data=data))
 graph_titles = [
     'Heart Disease Distribution',
     'Heart Disease Distribution By Gender',
