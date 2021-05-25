@@ -44,6 +44,7 @@ def get_target_scatter():
         x=data.age,
         color='target',
         height=600,
+        color_discrete_sequence=px.colors.qualitative.Set1,
         title='Maximum Heart Rate to Age Scatter Plot')
     fig.update_traces(marker=dict(size=10))
     return fig
