@@ -1,18 +1,50 @@
 import dash
 from dash.dependencies import Input, Output
 import plotly.express as px
+from sklearn.metrics import accuracy_score
 import dash_table as dt
 import dash_html_components as html
 import dash_core_components as dcc
 import pandas as pd
-import model_fun
+from predict_model import ModelLoader
 
 data = pd.read_csv('assets/heart.csv')
-print(model_fun.pred_naive_bayes(data=data))
+loader = ModelLoader(data)
+
 graph_titles = [
     'Heart Disease Distribution',
     'Heart Disease Distribution By Gender',
     'Heart Disease Distribution By Chest Pain Type']
+
+model_titles = [
+    "Naive Bayes",
+    "Logistic Regression",
+    "SVM(Support Vector Machine)",
+    "K Nearest Neighbour",
+    "Decision Tree",
+    "Random Forest",
+    "XG Boost",
+    "Neural Network"]
+
+
+model_result = [
+    loader.model(0),
+    loader.model(1),
+    loader.model(2),
+    loader.model(3),
+    loader.model(4),
+    loader.model(5),
+    loader.model(6),
+    loader.neunet()
+]
+
+
+def get_accuracy(index) -> float:
+    x = model_result[index]
+    return round(accuracy_score(x, loader.y_test)*100, 2)
+
+
+model_accuracy = [get_accuracy(i) for i in range(8)]
 
 
 def sample_table():
@@ -68,17 +100,22 @@ app.layout = html.Div(children=[
         id='graph_selector',
         options=[{'label': i, 'value': i} for i in graph_titles],
         value=graph_titles[0],
-        style={'width': '300px'}
+        style={'width': '320px'},
+        clearable=False
     ),
     html.Br(),
     html.Div(id='graph_holder'),
     html.Br(),
     html.H3('Maximum Heart Rate to Age Scatter Plot:'),
-    dcc.Graph(figure=get_target_scatter())
+    dcc.Graph(figure=get_target_scatter()),
+    html.Br(), html.Br(),
+    html.H2("Comparative Analysis"),
+    html.Br(),
+    dcc.Graph(figure=px.bar(x=model_titles, y=model_accuracy))
 ])
 
 
-@app.callback(
+@ app.callback(
     Output('graph_holder', 'children'),
     [Input('graph_selector', 'value')])
 def change_graph(value):
