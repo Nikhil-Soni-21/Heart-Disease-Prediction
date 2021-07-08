@@ -12,6 +12,17 @@ from keras.layers import Dense
 import pandas as pd
 import pickle
 
+model_files = [
+    'models/naive.ml',
+    'models/logistic.ml',
+    'models/svm.ml',
+    'models/knear.ml',
+    'models/dectree.ml',
+    'models/forest.ml',
+    'models/xgb.ml',
+    'models/neurnet.h5'
+]
+
 
 class _Pred:
     def __init__(self, data):
@@ -51,11 +62,27 @@ class _Pred:
         pass
 
     def k_nearest(self):
-        clf = KNeighborsClassifier(n_neighbors=7)
+        best_x = 0
+        m_acc = 0
         print("Training K-Nearest Neighbour Model")
+        clf = KNeighborsClassifier(n_neighbors=7)
+        for x in range(1, 200):
+            clf = KNeighborsClassifier(n_neighbors=x)
+            clf.fit(self.x_train, self.y_train)
+            c_pred = clf.predict(self.x_test)
+            c_acc = round(accuracy_score(c_pred, self.y_test)*100, 2)
+            print(
+                "Training with n: {0}\tcount({1}/{2})\tacc({3})".format(x, x, 200, c_acc))
+
+            if c_acc > m_acc:
+                m_acc = c_acc
+                best_x = x
+
+        clf = KNeighborsClassifier(n_neighbors=best_x)
         clf.fit(self.x_train, self.y_train)
         pickle.dump(clf, open(model_files[3], 'wb'))
-        print("K-Nearest Neighbour Model Trained")
+        print(
+            "K-Nearest Neighbour Model Trained (best-k -> {0} )".format(best_x))
 
     def decision_tree(self):
 
@@ -76,7 +103,7 @@ class _Pred:
         clf = DecisionTreeClassifier(random_state=best_x)
         clf.fit(self.x_train, self.y_train)
         pickle.dump(clf, open(model_files[4], 'wb'))
-        print("Decision Tree Model Trained")
+        print("Decision Tree Model Trained - best x-{0}".format(best_x))
         pass
 
     def random_forest(self):
@@ -97,7 +124,7 @@ class _Pred:
         clf = RandomForestClassifier(random_state=best_x)
         clf.fit(self.x_train, self.y_train)
         pickle.dump(clf, open(model_files[5], 'wb'))
-        print("Random Forest Model Trained")
+        print("Random Forest Model Trained best x-{0}".format(best_x))
         pass
 
     def xgb(self):

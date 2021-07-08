@@ -4,13 +4,13 @@ from keras.models import load_model
 import pickle
 
 model_files = [
-    'models/naive.mod',
-    'models/logistic.mod',
-    'models/svm.mod',
-    'models/knear.mod',
-    'models/dectree.mod',
-    'models/forest.mod',
-    'models/xgb.mod',
+    'models/naive.ml',
+    'models/logistic.ml',
+    'models/svm.ml',
+    'models/knear.ml',
+    'models/dectree.ml',
+    'models/forest.ml',
+    'models/xgb.ml',
     'models/neurnet.h5'
 ]
 

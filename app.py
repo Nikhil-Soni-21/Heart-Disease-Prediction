@@ -23,7 +23,7 @@ model_titles = [
     "K Nearest Neighbour",
     "Decision Tree",
     "Random Forest",
-    "XG Boost",
+    "XGBoost",
     "Neural Network"]
 
 
