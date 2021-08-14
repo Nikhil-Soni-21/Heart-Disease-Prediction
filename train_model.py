@@ -66,13 +66,13 @@ class _Pred:
         m_acc = 0
         print("Training K-Nearest Neighbour Model")
         clf = KNeighborsClassifier(n_neighbors=7)
-        for x in range(1, 200):
+        for x in range(1, 242):
             clf = KNeighborsClassifier(n_neighbors=x)
             clf.fit(self.x_train, self.y_train)
             c_pred = clf.predict(self.x_test)
             c_acc = round(accuracy_score(c_pred, self.y_test)*100, 2)
             print(
-                "Training with n: {0}\tcount({1}/{2})\tacc({3})".format(x, x, 200, c_acc))
+                "Training with n: {0}\tcount({1}/{2})\tacc({3})".format(x, x, 242, c_acc))
 
             if c_acc > m_acc:
                 m_acc = c_acc
@@ -89,13 +89,13 @@ class _Pred:
         m_acc = 0
         best_x = 0
         print("Training Decision Tree Model")
-        for x in range(200):
+        for x in range(242):
             clf = DecisionTreeClassifier(random_state=x)
             clf.fit(self.x_train, self.y_train)
             c_pred = clf.predict(self.x_test)
             c_acc = round(accuracy_score(c_pred, self.y_test)*100, 2)
             print(
-                "Training with seed: {2}\tcount({0}/{1})\tacc({3})".format(x+1, 200, x, c_acc))
+                "Training with seed: {2}\tcount({0}/{1})\tacc({3})".format(x+1, 242, x, c_acc))
             if c_acc > m_acc:
                 m_acc = c_acc
                 best_x = x
