@@ -110,13 +110,13 @@ class _Pred:
         max_acc = 0
         best_x = 0
         print("Training Random Forest Model")
-        for x in range(2000):
+        for x in range(1000):
             clf = RandomForestClassifier(random_state=x)
             clf.fit(self.x_train, self.y_train)
             c_pred = clf.predict(self.x_test)
             c_acc = round(accuracy_score(c_pred, self.y_test)*100, 2)
             print(
-                "Training with seed: {2}\tcount({0}/{1})\tacc({3})".format(x+1, 2000, x, c_acc))
+                "Training with seed: {2}\tcount({0}/{1})\tacc({3})".format(x+1, 1000, x, c_acc))
             if c_acc > max_acc:
                 max_acc = c_acc
                 best_x = x
